@@ -25,42 +25,57 @@ namespace WebApp2_4.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
         {
-            var comments = await _context.Comments
-                                     .Include(c => c.Expense)
-                                     .Select(c => new
-                                     {
-                                         c.Id,
-                                         c.Text,
-                                         c.Important,
-                                         TaskId = c.Expense.Id
-                                     })
-                                     .ToListAsync();
-
-            return Ok(comments);
+            return await _context.Comments.ToListAsync();
         }
+        //public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
+        //{
+        //    var comments = await _context.Comments
+        //                             .Include(c => c.Expense)
+        //                             .Select(c => new
+        //                             {
+        //                                 c.Id,
+        //                                 c.Text,
+        //                                 c.Important,
+        //                                 TaskId = c.Expense.Id
+        //                             })
+        //                             .ToListAsync();
+
+        //    return Ok(comments);
+        //}
 
         // GET: api/Comments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetComment(long id)
         {
-            var comment = await _context.Comments
-                                    .Include(c => c.Expense)
-                                    .Select(c => new
-                                    {
-                                        c.Id,
-                                        c.Text,
-                                        c.Important,
-                                        TaskId = c.Expense.Id
-                                    })
-                                    .FirstOrDefaultAsync(c => c.Id == id);
+            var comment = await _context.Comments.FindAsync(id);
 
             if (comment == null)
             {
                 return NotFound();
             }
 
-            return Ok(comment);
+            return comment;
         }
+        //public async Task<ActionResult<Comment>> GetComment(long id)
+        //{
+        //    var comment = await _context.Comments
+        //                            .Include(c => c.Expense)
+        //                            .Select(c => new
+        //                            {
+        //                                c.Id,
+        //                                c.Text,
+        //                                c.Important,
+        //                                TaskId = c.Expense.Id
+        //                            })
+        //                            .FirstOrDefaultAsync(c => c.Id == id);
+
+        //    if (comment == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(comment);
+        //}
 
         // PUT: api/Comments/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for

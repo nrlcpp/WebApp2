@@ -11,6 +11,7 @@ namespace WebApp2_4.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
+
             using (var context = new ExpensesDbContext(
                 serviceProvider.GetRequiredService<DbContextOptions<ExpensesDbContext>>()))
             {
