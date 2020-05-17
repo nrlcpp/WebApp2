@@ -25,21 +25,24 @@ namespace WebApp2_4.Controllers
         public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses(
             [FromQuery]DateTime? from = null,
             [FromQuery]DateTime? to = null,
-            [FromQuery] string type = null)
-        { 
-            
+            [FromQuery]Models.Type? type = null)
+        {
+            //Filters results by date
             IQueryable<Expense> result = _context.Expenses;
 
             if (from != null)
             {
-                result = result.Where(f => from <= f.Date);
+                result = result.Where(e => from <= e.Date);
             }
             if (to != null)
             {
-                result = result.Where(f => f.Date <= to);
+                result = result.Where(e => e.Date <= to);
             }
-
-
+            if (type !=null)
+            {
+                result = result.Where(e => e.Type == type);
+            }
+           
             var resultList = await result.ToListAsync();
             return resultList;
 
