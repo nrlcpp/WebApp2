@@ -42,8 +42,12 @@ namespace WebApp2_4.Controllers
             {
                 result = result.Where(e => e.Type == type);
             }
-           
-            var resultList = await result.ToListAsync();
+            //if (from != null && to != null && type != null)
+            //{
+            //    result = result.Where(e => from <= e.Date && e.Date <= to && e.Type == type);
+            //}
+
+                var resultList = await result.ToListAsync();
             return resultList;
 
         }
