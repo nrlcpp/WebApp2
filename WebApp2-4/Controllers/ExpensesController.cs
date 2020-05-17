@@ -22,9 +22,27 @@ namespace WebApp2_4.Controllers
 
         // GET: api/Expenses
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses()
-        {
-            return await _context.Expenses.ToListAsync();
+        public async Task<ActionResult<IEnumerable<Expense>>> GetExpenses(
+            [FromQuery]DateTime? from = null,
+            [FromQuery]DateTime? to = null,
+            [FromQuery] string type = null)
+        { 
+            
+            IQueryable<Expense> result = _context.Expenses;
+
+            if (from != null)
+            {
+                result = result.Where(f => from <= f.Date);
+            }
+            if (to != null)
+            {
+                result = result.Where(f => f.Date <= to);
+            }
+
+
+            var resultList = await result.ToListAsync();
+            return resultList;
+
         }
 
         // GET: api/Expenses/5
